@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="jaylib-4.2.0-1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/jars/jaylib-4.2.0-1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
