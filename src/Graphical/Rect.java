@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Rect {
 
     //attributes that are needed for the object
+    public final double FORCE_ZERO = 0.01;
     public float mass, inversemass;
     public float height, width;
     public Vector2 position, origin;
@@ -37,16 +38,7 @@ public class Rect {
     // constructor
     public Rect(int xc, int yc, int h, int w, float m, Color c, String name) {
         //assigns all attributes this way uses less computing power each time the new Rectangle is created
-        this.init(xc, yc, h, w, m, c, name);
-    }
 
-    public Rect(Rect r) {
-        // creates a copy of an object
-        this.init((int) r.getPosition().x, (int) r.getPosition().getY(), r.getHeight(),
-                r.getHeight(), r.getMass(), r.getColor(), r.getId());
-    }
-
-    private void init(int xc, int yc, int h, int w, float m, Color c, String name) {
         this.ForceAccum = new Vector2(0, 0);
         this.linearVel = new Vector2(0, 0);
         this.angularVel = 0f;
@@ -61,22 +53,23 @@ public class Rect {
         this.id = name;
         // mass is 0 we use it for static objects
         // also use for validation of to avoid infinity error
-        if (mass == 0.0f) {
-            this.inversemass = 0;
-        } else {
-            this.inversemass = 1 / this.mass;
-        }
+        inversemass = (mass == 0.0f)? 0: 1 / mass;
+//        if (mass == 0.0f) {
+//            this.inversemass = 0;
+//        } else {
+//            this.inversemass = 1 / this.mass;
+//        }
         this.color = c;
         // makes the initial position of the object which depends on parameters passed
 
         this.position = new Vector2(xc, yc);
         this.origin = new Vector2(xc, yc);
-        this.origin.add(new Vector2(width / 2, height / 2));
+        this.origin.add(new Vector2(width, height).mulRet(0.5));
         this.rotationCurrent = 0f;
         this.rotationPrevious = 0f;
         this.ReactionForces = new ArrayList<ReactionForce>();
         this.rotMat = new Matrix2(Math.cos(rotationCurrent), -Math.sin(rotationCurrent),
-                Math.sin(rotationCurrent), Math.cos(rotationCurrent));
+            Math.sin(rotationCurrent), Math.cos(rotationCurrent));
 
         //order of points 0,1,2,3 in left top, right top, right bottom, left bottom
         this.points.add(position);
@@ -84,6 +77,11 @@ public class Rect {
         this.points.add(new Vector2(position.getX() + width, position.getY() + height));
         this.points.add(new Vector2(position.getX(), position.getY() + height));
 
+        }
+
+    public Rect(Rect r) {
+        this((int) r.getPosition().x, (int) r.getPosition().getY(), r.getHeight(),
+                r.getHeight(), r.getMass(), r.getColor(), r.getId());
     }
 
     public void draw(Graphics2D g2, Vector2 move) {
@@ -194,7 +192,7 @@ public class Rect {
         Vector2 a = new Vector2(this.ForceAccum);
         //System.out.println(" this happens accel"+a.getY());
         a.mul(this.inversemass);
-        if ((-0.01 < a.x && a.x < 0.01) && (-0.01 < a.y && a.y < 0.01)) {
+        if ((-FORCE_ZERO < a.x && a.x < FORCE_ZERO) && (-FORCE_ZERO < a.y && a.y < FORCE_ZERO)) {
             a.zero();
         }
         // increases the linear velocity by the direction of resultant force
@@ -295,7 +293,6 @@ public class Rect {
 
     public void setLinearVel(Vector2 v) {
         if (this.mass != 0) {
-
             this.linearVel = v;
         }
     }

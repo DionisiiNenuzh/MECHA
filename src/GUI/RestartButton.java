@@ -1,8 +1,8 @@
 package GUI;
 
 import Graphical.objectsRegister;
-import fileHandle.FileSaver;
-import fileHandle.RestartReader;
+import fileSaver.FileSaver;
+import fileSaver.RestartReader;
 import java.io.File;
 import java.io.IOException;
 

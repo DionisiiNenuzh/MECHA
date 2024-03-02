@@ -16,10 +16,7 @@ public class Matrix2 {
 
     // this constructor is made for easier conversion from rotation matrices
     public Matrix2(double a, double b, double c, double d) {
-        this.a = (float) a;
-        this.b = (float) b;
-        this.c = (float) c;
-        this.d = (float) d;
+        this((float) a, (float) b, (float) c, (float) d);
     }
 
     //Scalar multiplication
@@ -33,11 +30,10 @@ public class Matrix2 {
     // inverse matrix for equation solving
     public Matrix2 inverse() {
         Matrix2 mat = new Matrix2(d, -b, -c, a);
-        // determinant division
-        mat.mul(1 / (a * d - b * c));
+        float determinant = a * d - b * c;
+        mat.mul(1 / determinant);
         return mat;
     }
-
     // getters and setters
     public float getA() {
         return a;
