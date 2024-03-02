@@ -88,10 +88,11 @@ public class Button {
 
     // checked
     public void CheckHighlight(Vector2 p, boolean click, String ch) {
-        CollisionDetector c = new CollisionDetector();
+
         if (CollisionDetector.pointInRectangle(p, new Rect((int) this.getPosition().x,
                 (int) this.getPosition().y, (int) this.getSize().y,
                 (int) this.getSize().x, 10, Color.red, ""))) {
+            System.out.println("Ther has been a detection on button" + this.toString() + " at point: " + p.toString());
             // if the point where the mouse pointer is now is inside
             // the rectangle
             this.SetHighlight = true;
@@ -114,10 +115,19 @@ public class Button {
     }
 
     //getters and setters
-    public boolean isHighlighted(Vector2 point, CollisionDetector c) {
+    public boolean isHighlighted(Vector2 point) {
         return CollisionDetector.pointInRectangle(point, new Rect((int) this.getPosition().x,
                 (int) this.getPosition().y, (int) this.getSize().y,
                 (int) this.getSize().x, 10, Color.red, ""));
+    }
+
+    @Override
+    public String toString() {
+        return "Button{" +
+                ", name='" + name +
+                "position=" + position +
+                ", size=" + size +'\'' +
+                '}';
     }
 
     public Vector2 getPosition() {

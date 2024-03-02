@@ -69,7 +69,7 @@ public class Window extends JFrame implements Runnable {
         this.restart = new Button(new Button(new Vector2(0, 0), new Vector2(147, 25), "Restart",
                 new RestartButton(this.timer, this.play, this.objects)));
         // put the buttons into panel
-        this.menu = new Panel(new Vector2(0, 30));
+        this.menu = new Panel(new Vector2(0, 0));
         this.menu.add(this.play);
         this.menu.add(this.create);
         this.menu.add(this.restart);

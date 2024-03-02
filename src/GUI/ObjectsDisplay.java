@@ -98,7 +98,7 @@ public class ObjectsDisplay {
         CollisionDetector c = new CollisionDetector();
         if (this.onMenu) {
             this.options.OnMenu(point, click, "a");
-            this.onMenu = this.options.getOnMenu(point, c);
+            this.onMenu = this.options.getOnMenu(point);
         }
         for (int i = 0; i < this.objects.size(); i++) {
             this.objects.get(i).CheckClick(point, click, c);
