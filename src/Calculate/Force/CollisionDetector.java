@@ -29,6 +29,11 @@ public class CollisionDetector {
         return point.getY() == gradient * point.getX() + c;
     }
 
+    public static boolean pointInRectangle(Vector2 point, Vector2 position, Vector2 size) {
+        Rect rect = new Rect((int)position.getX(), (int)position.getY(), (int)size.getY(), (int)size.getX(), 10, Color.red, "hello");
+        return pointInRectangle(point, rect);
+    }
+
     public static boolean pointInRectangle(Vector2 point, Rect box) {
         // Translate it inside the box space
         Vector2 pointLocalInTHeBox = new Vector2(point);

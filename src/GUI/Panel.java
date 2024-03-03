@@ -11,12 +11,12 @@ import java.util.Vector;
 public class Panel {
 
     public final static int BUTTON_SPACING = 3;
-
     // attributes needed to add functionality of the queue
     public ArrayList<Button> buttons = new ArrayList<Button>();
     // position to draw and size to check
     // whether any button is clicked on the menu
     public Vector2 position, size;
+    private boolean horizontal = false;
     //direction where next button will be drawn
     private final Vector2 buttonSpacing = new Vector2(0, 30);
 
@@ -26,14 +26,12 @@ public class Panel {
     }
 
     public void add(Button b) {
-        boolean horizontal = false;
-
         // update button based on panel
         Vector2 newPos;
         if (horizontal) {
-            newPos = new Vector2(this.size.getX() + BUTTON_SPACING, this.position.getY());
+            newPos = new Vector2(this.position.getX() + this.size.getX() + BUTTON_SPACING, this.position.getY());
         } else {
-            newPos = new Vector2(this.position.getX(), this.size.getY() + BUTTON_SPACING);
+            newPos = new Vector2(this.position.getX(), this.position.getY() + this.size.getY() + BUTTON_SPACING);
         }
         b.setPosition(newPos);
 
@@ -65,7 +63,7 @@ public class Panel {
         for (Button b : this.buttons) {
             if (b.response.getPanel() != null) {
                 //System.out.println("panel "+this.buttons.get(i).name);
-                if (b.response.panel.getOnMenu(point)) {
+                if (b.response.getActive() && b.response.panel.getOnMenu(point)) {
                     b.response.panel.OnMenu(point, click, ch);
                     isOne = true;
                 }
@@ -94,13 +92,23 @@ public class Panel {
     // TODO add this method to the collision detector class
     public boolean getOnMenu(Vector2 point) {
         //System.out.println(this.size.x+" "+this.size.y);
-        return CollisionDetector.pointInRectangle(point, new Rect((int) this.position.x,
-                (int) this.position.y, (int) this.size.y, (int) this.size.x,
-                10, Color.red, "hello"));
+        return CollisionDetector.pointInRectangle(point, position, size);
     }
 
     public void setPosition(Vector2 v) {
+
         this.position = new Vector2(v);
+
+        Vector2 currentPosition = new Vector2(v);
+        for (Button b : buttons) {
+            b.setPosition(currentPosition);
+            if (horizontal) {
+                currentPosition.add(new Vector2(b.getSize().getX() + BUTTON_SPACING, 0));
+            } else {
+                currentPosition.add(new Vector2(0, b.getSize().getY() + BUTTON_SPACING));
+            }
+        }
+
     }
 
     public void inputKey(String c) {
