@@ -126,15 +126,17 @@ public class Window extends JFrame implements Runnable {
     public void draw(Graphics g, Vector2 move) {
         // accesses the graphics of the window
         Graphics2D g2 = (Graphics2D) g;
-        g2.setColor(Color.LIGHT_GRAY);
-        g2.fillRect(Constants.SCREEN_OFFSET, 0, Constants.SCREEN_WIDTH - Constants.SCREEN_OFFSET,
-                Constants.SCREEN_HEIGHT);
-        this.axes.draw(g2, move);
+        GraphicsEngine ge = new Graphics2DAdapter(g2);
+        ge.setColor(Color.LIGHT_GRAY);
+        ge.drawRectangle(new Vector2(Constants.SCREEN_OFFSET, 0),
+            new Vector2(Constants.SCREEN_WIDTH - Constants.SCREEN_OFFSET, Constants.SCREEN_HEIGHT),
+            true);
+        this.axes.draw(ge, move);
 
-        this.objects.draw(g2, move);
-        this.Out.draw(g2);
-        this.menu.draw(g2);
-        this.timer.draw(g2);
+        this.objects.draw(ge, move);
+        this.Out.draw(ge);
+        this.menu.draw(ge);
+        this.timer.draw(ge);
     }
 
 

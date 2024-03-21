@@ -3,6 +3,8 @@ package GUI;
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
 import Graphical.Constants;
+import Graphical.Graphics2DAdapter;
+import Graphical.GraphicsEngine;
 import Graphical.ObjectOnDisplay;
 import Graphical.Rect;
 import java.awt.Color;
@@ -71,7 +73,49 @@ public class ObjectsDisplay {
             Vector2 pos = new Vector2(this.objects.get(this.selected).getRegion().getPosition());
             pos.add(new Vector2(this.shift, -this.options.size.getY()));
             this.options.setPosition(pos);
-            this.options.draw(g2);
+            this.options.draw(new Graphics2DAdapter(g2));
+        }
+    }
+
+    public void draw(GraphicsEngine ge) {
+        //fills background of the object Display
+        ge.setColor(Color.gray);
+        // fills a background on the object display
+        ge.drawRectangle(new Vector2(0, Constants.SCREEN_HEIGHT - 150)
+            , new Vector2(Constants.SCREEN_WIDTH, 150), true);
+        //gets coordinates for the next icon including the scrolled amount
+        int posX = 20 + this.shift;
+        int posY = Constants.SCREEN_HEIGHT - 100;
+        // draws each object and its name
+        for (ObjectOnDisplay object : this.objects) {
+           ge.setColor(Color.black);
+           ge.drawText(object.getRegion().getId(), new Vector2(posX, posY));
+           // shifts the object's coordinate down
+           posY += 10;
+           ge.setColor(object.getRegion().getColor());
+           ge.drawRectangle(new Vector2(posX, posY), new Vector2(30, 30), false);
+           posX += 80;
+           posY -= 10;
+           object.getRegion().origin.add(new Vector2(this.changeShift, 0));
+           //checks should the icon be highlighted
+           if (object.isHighlighted()) {
+             Rect region = new Rect(object.getRegion());
+             // gets correct highlight color
+             ge.setColor(object.getColor());
+             // draws a rectangle around an icon
+             ge.drawRectangle(
+                 new Vector2((int) region.getPosition().getX() + this.shift,
+                     (int) region.getPosition().getY()),
+                 new Vector2(region.getWidth(), region.getHeight()), false);
+           }
+      }
+        // draws a menu to the left of the selected objects
+        if (this.onMenu && this.selected != -1) {
+            // draws a panel on position above the icon clicked
+            Vector2 pos = new Vector2(this.objects.get(this.selected).getRegion().getPosition());
+            pos.add(new Vector2(this.shift, -this.options.size.getY()));
+            this.options.setPosition(pos);
+            this.options.draw(ge);
         }
     }
 

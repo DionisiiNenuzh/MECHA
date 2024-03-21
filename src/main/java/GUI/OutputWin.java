@@ -3,6 +3,7 @@ package GUI;
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
 import Graphical.Constants;
+import Graphical.GraphicsEngine;
 import Graphical.Rect;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -90,6 +91,42 @@ public class OutputWin extends Button {
         }
     }
 
+    public void draw(GraphicsEngine ge) {
+        // swaps hidden and open positions depending on the state
+        this.hideAndOpen();
+        ge.setColor(Color.GRAY);
+        ge.drawRectangle(this.position,this.size, false);
+        if (this.hidden) {
+            ge.setColor(Color.BLACK);
+            ge.drawText(this.name, new Vector2(this.position.getX()
+                + 20, this.position.getY() + 20));
+            if (this.subject != null) {
+                // creates an array of data from the object
+                this.data.add(this.convert(2, this.subject.forceDisplay.x));
+                this.data.add(this.convert(2, this.subject.forceDisplay.y));
+                this.data.add(this.convert(2, this.subject.getForceDisplay().getMagnitude()));
+                this.data.add(this.convert(2,
+                    this.subject.getForceDisplay().getMagnitude() * this.subject.inversemass));
+                this.data.add(this.convert(2, this.subject.getLinearVel().getX()));
+                this.data.add(this.convert(2, this.subject.getLinearVel().getY()));
+                this.data.add(this.convert(2, this.subject.getLinearVel().getMagnitude()));
+                this.writeDetails(ge);
+                this.data.clear();
+            } else {
+                ge.setColor(Color.red);
+                ge.drawText("Object not chosen", new Vector2(this.position.getX() + 20,
+                    (int) this.position.getY() + 50));
+            }
+        } else {
+            ge.setColor(Color.BLACK);
+            ge.drawText("Output Window", new Vector2(Constants.SCREEN_WIDTH - 95, this.position.getY() + 20));
+        }
+        // highlights the box if it should be
+        if (this.SetHighlight) {
+            this.highlight(ge);
+        }
+    }
+
     public void writeDetails(Graphics2D g2) {
         // sets up the position of the first object
         int CharSpace = 8;
@@ -107,6 +144,26 @@ public class OutputWin extends Button {
             // shifts the value downwards
             posY += 24;
             drawing(g2, i, posX, posY);
+        }
+    }
+
+    public void writeDetails(GraphicsEngine ge) {
+        // sets up the position of the first object
+        int CharSpace = 8;
+        int posX = (int) this.position.getX() + 20;
+        // sets up the text to be drawn with spacing on the left
+        int posY = (int) this.position.getY() + 20 + 4 * CharSpace;
+        // draws a first element of the text
+        ge.drawText(this.output.get(0), new Vector2(posX, posY));
+        String s = this.bodyName;
+        // adds data from the object to the left
+        // depending on the length of the string
+        ge.drawText(s, new Vector2(posX + this.output.get(0).length() * CharSpace, posY));
+
+        for (int i = 1; i < this.output.size(); i++) {
+            // shifts the value downwards
+            posY += 24;
+            drawing(ge, i, posX, posY);
         }
     }
 
@@ -140,6 +197,43 @@ public class OutputWin extends Button {
             case 5:
                 s = this.data.get(6);
                 g2.drawString(this.output.get(5) + s, x, y);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + index);
+        }
+    }
+
+
+    public void drawing(GraphicsEngine ge, int index, int x, int y) {
+        String s, spaces;
+        switch (index) {
+            case 1:
+                spaces = " ";
+                for (int i = 0; i < 12 - this.data.get(0).length(); i++) {
+                    spaces += " ";
+                }
+                s = " x: " + this.data.get(0) + spaces + "y: " + this.data.get(1);
+                ge.drawText(this.output.get(1) + s, new Vector2(x, y));
+                break;
+            case 2:
+                s = this.data.get(2);
+                ge.drawText(this.output.get(2) + s, new Vector2(x, y));
+                break;
+            case 3:
+                s = this.data.get(3);
+                ge.drawText(this.output.get(3) + s, new Vector2(x, y));
+                break;
+            case 4:
+                spaces = " ";
+                for (int i = 0; i < 12 - this.data.get(4).length(); i++) {
+                    spaces += " ";
+                }
+                s = " x: " + this.data.get(4) + spaces + "y: " + this.data.get(5);
+                ge.drawText(this.output.get(4) + s, new Vector2(x, y));
+                break;
+            case 5:
+                s = this.data.get(6);
+                ge.drawText(this.output.get(5) + s, new Vector2(x, y));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + index);
@@ -180,6 +274,12 @@ public class OutputWin extends Button {
         g2.setStroke(new BasicStroke(5));
         g2.drawRect((int) this.position.getX(), (int) this.position.getY(),
                 (int) this.size.getX(), (int) this.size.getY());
+    }
+
+    public void highlight(GraphicsEngine ge) {
+        ge.setColor(Color.yellow);
+        // creates an outline of a different colour around the box
+        ge.drawRectangle(this.position, this.size, false);
     }
 
     public Vector2 getPosition() {

@@ -2,11 +2,9 @@ package GUI;
 
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
-import Graphical.Rect;
-import java.awt.Color;
+import Graphical.GraphicsEngine;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Vector;
 
 public class Panel {
 
@@ -51,9 +49,13 @@ public class Panel {
 
         System.out.println("SIZE is " + size.toString());
     }
+//
+//    public void draw(Graphics2D g2) {
+//        this.buttons.forEach(b -> b.draw(g2));
+//    }
 
-    public void draw(Graphics2D g2) {
-        this.buttons.forEach(b -> b.draw(g2));
+    public void draw(GraphicsEngine ge) {
+        this.buttons.forEach(b -> b.draw(ge));
     }
 
     //checks whether the point is clicked on menu's area
@@ -85,7 +87,7 @@ public class Panel {
 
     public void offHighlight() {
         for (Button b : buttons) {
-            b.SetHighlight = false;
+            b.highlighted = false;
         }
     }
 

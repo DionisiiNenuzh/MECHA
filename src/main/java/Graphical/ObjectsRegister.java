@@ -217,13 +217,13 @@ public class ObjectsRegister {
     }
 
     // draws object and display panel
-    public void draw(Graphics2D g2, Vector2 move) {
+    public void draw(GraphicsEngine ge, Vector2 move) {
 
       for (Rect rect : this.queue) {
-        rect.draw(new Graphics2DInterpreter(g2), move);
+        rect.draw(ge, move);
       }
         // display is drawn of top of the objects
-      this.DisplayList.draw(g2);
+      this.DisplayList.draw(ge);
     }
 
     public void restartFreeForces() {

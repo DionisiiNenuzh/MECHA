@@ -2,6 +2,7 @@ package GUI;
 
 import Calculate.Vector2;
 import Graphical.Constants;
+import Graphical.GraphicsEngine;
 import java.awt.Graphics2D;
 
 public class TimeDisplay {
@@ -25,9 +26,9 @@ public class TimeDisplay {
     }
 
     // draws a string with time up to 3 decimal places
-    public void draw(Graphics2D g2) {
-        g2.drawString(this.convert(this.time), (int) this.Position.getX()
-                , (int) this.Position.getY() + 15);
+    public void draw(GraphicsEngine ge) {
+        ge.drawText(this.convert(this.time),
+            new Vector2(this.Position.getX(), (int) this.Position.getY() + 15));
     }
 
     //restarts it

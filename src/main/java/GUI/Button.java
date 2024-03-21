@@ -2,6 +2,7 @@ package GUI;
 
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
+import Graphical.GraphicsEngine;
 import Graphical.Rect;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -13,7 +14,7 @@ public class Button {
     // it has position of where to draw and identifier
     public Vector2 position, size;
     public String name;
-    public boolean SetHighlight = false;
+    public boolean highlighted = false;
     // specific response which can be activated
     public ButtonResponse response;
     // has it input window which can be triggered if the button is pressed
@@ -37,37 +38,37 @@ public class Button {
     }
 
     // the procedure of drawing
-    public void draw(Graphics2D g2) {
-        // sets color and width of the line
-        g2.setColor(Color.CYAN);
-        g2.setStroke(new BasicStroke(5));
-        // draws a rectangle with size of the button
-        g2.fillRect((int) this.position.getX(), (int) this.position.getY(),
-                (int) this.size.getX(), (int) this.size.getY());
-        // draws the name of the button on it
-        g2.setColor(Color.darkGray);
-        g2.drawString(this.name, (int) this.position.getX() + 20, (int) this.position.getY() + 20);
-        // draws yellow outline if the mouse is on
-        if (this.SetHighlight) {
-            this.highlight(g2, Color.yellow);
-        }
-
-        //TODO remove it to a ButtonWithInput
-        //activates an input window if it is possible
-        if (this.response.getActive()) {
-            this.setInputWindow();
-        }
-        // only if the dropdown panel exists the panel should be drawn
-        if (this.response.getActive() && this.response.panel != null) {
-            this.highlight(g2, Color.green);
-            //adds a panel position to the right of the button
-            //this.response.getPanel().position = new Vector2(this.position);
-            Vector2 relativePos = new Vector2(this.position);
-            relativePos.add(this.size);
-//            this.response.panel.setPosition(relativePos);
-            this.response.panel.draw(g2);
-        }
-    }
+//    public void draw(Graphics2D g2) {
+//        // sets color and width of the line
+//        g2.setColor(Color.CYAN);
+//        g2.setStroke(new BasicStroke(5));
+//        // draws a rectangle with size of the button
+//        g2.fillRect((int) this.position.getX(), (int) this.position.getY(),
+//                (int) this.size.getX(), (int) this.size.getY());
+//        // draws the name of the button on it
+//        g2.setColor(Color.darkGray);
+//        g2.drawString(this.name, (int) this.position.getX() + 20, (int) this.position.getY() + 20);
+//        // draws yellow outline if the mouse is on
+//        if (this.highlighted) {
+//            this.highlight(g2, Color.yellow);
+//        }
+//
+//        //TODO remove it to a ButtonWithInput
+//        //activates an input window if it is possible
+//        if (this.response.getActive()) {
+//            this.setInputWindow();
+//        }
+//        // only if the dropdown panel exists the panel should be drawn
+//        if (this.response.getActive() && this.response.panel != null) {
+//            this.highlight(g2, Color.green);
+//            //adds a panel position to the right of the button
+//            //this.response.getPanel().position = new Vector2(this.position);
+//            Vector2 relativePos = new Vector2(this.position);
+//            relativePos.add(this.size);
+////            this.response.panel.setPosition(relativePos);
+//            this.response.panel.draw(g2);
+//        }
+//    }
 
     public void highlight(Graphics2D g2, Color color) {
         // switches the color specified
@@ -77,6 +78,42 @@ public class Button {
         g2.setStroke(new BasicStroke(5));
         g2.drawRect((int) this.position.getX(), (int) this.position.getY(),
                 (int) this.size.getX(), (int) this.size.getY());
+    }
+
+    public void draw(GraphicsEngine ge) {
+        // sets color and width of the line
+        ge.setColor(Color.CYAN);
+        // draws a rectangle with size of the button
+        ge.drawRectangle(this.position, this.size, true);
+        // draws the name of the button on it
+        ge.setColor(Color.darkGray);
+        Vector2 textPosition = new Vector2(this.position);
+        textPosition.add(new Vector2(20, 20));
+        ge.drawText(this.name, textPosition);
+
+        // draws yellow outline if the mouse is on
+        if (this.highlighted) {
+            this.highlight(ge, Color.yellow);
+        }
+
+        //TODO remove it to a ButtonWithInput
+        //activates an input window if it is possible
+        if (this.response.getActive()) {
+            this.setInputWindow();
+            if (this.response.panel != null) {
+                Vector2 relativePos = new Vector2(this.position);
+                relativePos.add(this.size);
+                this.response.panel.draw(ge);
+            }
+        }
+    }
+
+    public void highlight(GraphicsEngine ge, Color color) {
+        // switches the color specified
+        // made to differ pressed button
+        // and the button which has a mouse pointer on it
+        ge.setColor(color);
+        ge.drawRectangle(this.position, this.size, false);
     }
 
     public void setInputWindow() {
@@ -94,13 +131,13 @@ public class Button {
 //            System.out.println("Ther has been a detection on button" + this.toString() + " at point: " + p.toString());
             // if the point where the mouse pointer is now is inside
             // the rectangle
-            this.SetHighlight = true;
+            this.highlighted = true;
             if (click) {
                 System.out.println("pressed " + this.name);
                 this.response.activate();
             }
         } else {
-            this.SetHighlight = false;
+            this.highlighted = false;
         }
         // checks whether it is clicked on the dropdown panel
         /*

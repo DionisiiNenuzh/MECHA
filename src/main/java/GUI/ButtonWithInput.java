@@ -1,6 +1,7 @@
 package GUI;
 
 import Calculate.Vector2;
+import Graphical.GraphicsEngine;
 import java.awt.Graphics2D;
 
 public class ButtonWithInput extends Button {
@@ -11,8 +12,17 @@ public class ButtonWithInput extends Button {
     this.input = input;
   }
 
-  public void draw(Graphics2D g2) {
-    super.draw(g2);
+//  public void draw(Graphics2D g2) {
+//    super.draw(g2);
+//
+//    if (this.response.getActive()) {
+//      this.setInputWindow();
+//      // this file inside
+//    }
+//  }
+  @Override
+  public void draw(GraphicsEngine ge) {
+    super.draw(ge);
 
     if (this.response.getActive()) {
       this.setInputWindow();

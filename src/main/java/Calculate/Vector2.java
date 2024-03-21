@@ -22,6 +22,7 @@ public class Vector2 {
         return x;
     }
 
+
     // changes through setters
     public void setX(float x) {
         this.x = x;

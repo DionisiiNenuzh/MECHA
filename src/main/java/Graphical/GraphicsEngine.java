@@ -11,5 +11,9 @@ public interface GraphicsEngine {
   void setColor(Color c);
 
 
+  void drawRectangle(Vector2 rightTopPoint, Vector2 size, boolean fill);
+  void drawText(String text, Vector2 position);
+
+
 
 }
