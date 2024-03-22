@@ -9,7 +9,6 @@ import GUI.ObjectsDisplay;
 import GUI.OutputWin;
 import GUI.TimeDisplay;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -222,7 +221,7 @@ public class ObjectsRegister {
       for (Rect rect : this.queue) {
         rect.draw(ge, move);
       }
-        // display is drawn of top of the objects
+
       this.DisplayList.draw(ge);
     }
 

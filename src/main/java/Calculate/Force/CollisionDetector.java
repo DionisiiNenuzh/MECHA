@@ -42,9 +42,9 @@ public class CollisionDetector {
 
         // min is right top point max is left bottom
         Vector2 min = new Vector2(box.getOrigin());
-        min.sub(new Vector2(box.getWidth(), box.getHeight()).mulRet(0.5));
+        min.sub(new Vector2(box.getWidth(), box.getHeight()).mul(0.5));
         Vector2 max = new Vector2(box.getOrigin());
-        max.add(new Vector2(box.getWidth(), box.getHeight()).mulRet(0.5));
+        max.add(new Vector2(box.getWidth(), box.getHeight()).mul(0.5));
 
         // If rotated point is between two minimum and maximum then the point is inside
 
@@ -68,9 +68,9 @@ public class CollisionDetector {
 
         // min is right top point max is left bottom
         Vector2 min = box.getOrigin();
-        min.sub(new Vector2(box.width, box.height).mulRet(0.5));
+        min.sub(new Vector2(box.width, box.height).mul(0.5));
         Vector2 max = box.getOrigin();
-        max.add(new Vector2(box.width, box.height).mulRet(0.5));
+        max.add(new Vector2(box.width, box.height).mul(0.5));
         // get the minimum and maximum points relative to the start of the line
         // then we multiply its coordinates to get intersections of the vectors
         min.sub(line.getStart());

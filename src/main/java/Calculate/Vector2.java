@@ -38,25 +38,29 @@ public class Vector2 {
         this.y = y;
     }
 
-    public void add(Vector2 vec) {
+    public Vector2 add(Vector2 vec) {
         this.x += vec.getX();
         this.y += vec.getY();
+        return new Vector2(this);
     }
 
-    public void sub(Vector2 vec) {
+    public Vector2 sub(Vector2 vec) {
         this.x -= vec.getX();
         this.y -= vec.getY();
+        return new Vector2(this);
     }
 
     // scalar multiplication using floats and doubles, as time is passed in double variable
-    public void mul(float factor) {
+    public Vector2 mul(float factor) {
         this.x = this.x * factor;
         this.y = this.y * factor;
+        return new Vector2(this);
     }
 
-    public void mul(double factor) {
+    public Vector2 mul(double factor) {
         this.x = this.x * (float) factor;
         this.y = this.y * (float) factor;
+        return new Vector2(this);
     }
 
     // Makes a unit vector of the same direction but magnitude 1
@@ -78,11 +82,6 @@ public class Vector2 {
     public void zero() {
         this.x = 0f;
         this.y = 0f;
-    }
-
-    //returns vector which has been multiplied by factor, without changing this vector itself
-    public Vector2 mulRet(double factor) {
-        return new Vector2(this.x * (float) factor, this.y * (float) factor);
     }
 
     public float dot(Vector2 vec) {

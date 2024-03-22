@@ -6,11 +6,7 @@ import Calculate.Matrix2;
 import Calculate.Multiply;
 import Calculate.Rotate;
 import Calculate.Vector2;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 //@JsonPropertyOrder({"name", "position", "size", "mass"})
@@ -61,7 +57,7 @@ public class Rect {
 
         this.position = new Vector2(xc, yc);
         this.origin = new Vector2(xc, yc);
-        this.origin.add(new Vector2(width, height).mulRet(0.5));
+        this.origin.add(new Vector2(width, height).mul(0.5));
         this.rotationCurrent = 0f;
         this.rotationPrevious = 0f;
         this.ReactionForces = new ArrayList<ReactionForce>();
@@ -83,6 +79,7 @@ public class Rect {
 
     public void draw(GraphicsEngine graphicsEngine, Vector2 move) {
         graphicsEngine.setColor(color);
+        graphicsEngine.setOffset(new Vector2(Constants.SCREEN_OFFSET, 0));
 
         for (int i = 0; i < 4; i++) {
             Vector2 newPoint = new Vector2(this.points.get(i));
@@ -119,52 +116,7 @@ public class Rect {
         }
         // clear reactionForces so it can be added on the next frame
         this.ReactionForces.clear();
-    }
-
-    public void draw(Graphics2D g2, Vector2 move) {
-        g2.setColor(color);
-        //  draws a line from 0 to 1 , 1 to 2, 2 to 3, 3 to 0
-        // makes the drawing line thicker
-        g2.setStroke(new BasicStroke(5));
-        // the coordinates are shifted because of toolbar on the left
-        // move the forces by offload
-        for (int i = 0; i < 4; i++) {
-            Vector2 newPoint = new Vector2(this.points.get(i));
-            newPoint.sub(move);
-            this.points.set(i, newPoint);
-        }
-        for (int i = 1; i < 4; i += 1) {
-            g2.draw(new Line2D.Float(points.get(i - 1).getX() + Constants.SCREEN_OFFSET,
-                    points.get(i - 1).getY(),
-                    points.get(i).getX() + Constants.SCREEN_OFFSET, points.get(i).getY()));
-        }
-        // the last line added
-        g2.draw(new Line2D.Float(points.get(0).getX() + Constants.SCREEN_OFFSET,
-                points.get(0).getY(),
-                points.get(3).getX() + Constants.SCREEN_OFFSET, points.get(3).getY()));
-        // draws contact points for better understanding
-        if (this.ReactionForces.size() > 0) {
-            for (int i = 0; i < this.ReactionForces.size(); i++) {
-                // gets x and y coordinates from the contact point
-                float xPos =
-                        this.ReactionForces.get(i).contactPoint.getX() + Constants.SCREEN_OFFSET
-                                - move.getX();
-                float yPos = this.ReactionForces.get(i).contactPoint.getY() - move.getY();
-                // sets so it can be clearly visible
-                g2.setStroke(new BasicStroke(5));
-                g2.setColor(Color.red);
-                // draws a line containing one point
-                g2.draw(new Line2D.Float(xPos, yPos, xPos, yPos));
-            }
-        }
-        // return them back for calculations
-        for (int i = 0; i < 4; i++) {
-            Vector2 newPoint = new Vector2(this.points.get(i));
-            newPoint.add(move);
-            this.points.set(i, newPoint);
-        }
-        // clear reactionForces so it can be added on the next frame
-        this.ReactionForces.clear();
+        graphicsEngine.setOffset(new Vector2(0,0));
     }
 
     public void updatePoints() {
@@ -233,9 +185,9 @@ public class Rect {
             a.zero();
         }
         // increases the linear velocity by the direction of resultant force
-        this.linearVel.add(a.mulRet(dt));
+        this.linearVel.add(a.mul(dt));
         // increases it to the side where the velocity is increased
-        this.origin.add(new Vector2(this.linearVel.mulRet(dt)));
+        this.origin.add(new Vector2(this.linearVel).mul(dt));
         // updates the points relative to its position and rotation
         updatePoints();
         // resets all quantities for the next frame

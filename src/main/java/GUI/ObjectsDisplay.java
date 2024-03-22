@@ -3,12 +3,10 @@ package GUI;
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
 import Graphical.Constants;
-import Graphical.Graphics2DAdapter;
 import Graphical.GraphicsEngine;
 import Graphical.ObjectOnDisplay;
 import Graphical.Rect;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class ObjectsDisplay {
@@ -37,50 +35,9 @@ public class ObjectsDisplay {
                 "Remove", new ButtonResponse()));
     }
 
-    public void draw(Graphics2D g2) {
-        //fills background of the object Display
-        g2.setColor(Color.gray);
-        // fills a background on the object display
-        g2.fillRect(0, Constants.SCREEN_HEIGHT - 150, Constants.SCREEN_WIDTH, 150);
-        //gets coordinates for the next icon including the scrolled amount
-        int posX = 20 + this.shift;
-        int posY = Constants.SCREEN_HEIGHT - 100;
-        // draws each object and its name
-        for (int i = 0; i < this.objects.size(); i++) {
-            g2.setColor(Color.black);
-            g2.drawString(this.objects.get(i).getRegion().getId(), posX, posY);
-            // shifts the object's coordinate down
-            posY += 10;
-            g2.setColor(this.objects.get(i).getRegion().getColor());
-            g2.drawRect(posX, posY, 30, 30);
-            posX += 80;
-            posY -= 10;
-            this.objects.get(i).getRegion().origin.add(new Vector2(this.changeShift, 0));
-            //checks should the icon be highlighted
-            if (this.objects.get(i).isHighlighted()) {
-                Rect region = new Rect(this.objects.get(i).getRegion());
-                // gets correct highlight color
-                g2.setColor(this.objects.get(i).getColor());
-                // draws a rectangle around an icon
-                g2.drawRect((int) region.getPosition().getX() + this.shift,
-                        (int) region.getPosition().getY(),
-                        region.getWidth(), region.getHeight());
-            }
-        }
-        // draws a menu to the left of the selected objects
-        if (this.onMenu && this.selected != -1) {
-            // draws a panel on position above the icon clicked
-            Vector2 pos = new Vector2(this.objects.get(this.selected).getRegion().getPosition());
-            pos.add(new Vector2(this.shift, -this.options.size.getY()));
-            this.options.setPosition(pos);
-            this.options.draw(new Graphics2DAdapter(g2));
-        }
-    }
-
     public void draw(GraphicsEngine ge) {
-        //fills background of the object Display
-        ge.setColor(Color.gray);
         // fills a background on the object display
+        ge.setColor(Color.gray);
         ge.drawRectangle(new Vector2(0, Constants.SCREEN_HEIGHT - 150)
             , new Vector2(Constants.SCREEN_WIDTH, 150), true);
         //gets coordinates for the next icon including the scrolled amount
@@ -134,10 +91,10 @@ public class ObjectsDisplay {
     public void update(Vector2 point, boolean click, int shiftV) {
         this.changeShift = shiftV * 5 - this.shift;
         this.shift = shiftV * 5;
-        this.CheckClick(point, click);
+        this.checkClick(point, click);
     }
 
-    public void CheckClick(Vector2 point, boolean click) {
+    public void checkClick(Vector2 point, boolean click) {
         boolean isOne = false;
         CollisionDetector c = new CollisionDetector();
         if (this.onMenu) {

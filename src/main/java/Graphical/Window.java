@@ -9,7 +9,6 @@ import GUI.MakeRectangle;
 import GUI.MakeSurface;
 import GUI.MakeVelocity;
 import GUI.ObjectsDisplay;
-import GUI.OutputResponse;
 import GUI.OutputWin;
 import GUI.Panel;
 import GUI.RestartButton;
@@ -80,7 +79,7 @@ public class Window extends JFrame implements Runnable {
 
         // initialisation of the window
         this.Out = new OutputWin(new Vector2(Constants.SCREEN_WIDTH - 300, 35),
-                new Vector2(300, 200), "Output Window", new OutputResponse());
+                new Vector2(300, 200), "Output Window", new ButtonResponse());
 
         // set input windows buttons after which they respond
         this.Inputwindow = new MakeRectangle(this.objects,

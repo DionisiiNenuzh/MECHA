@@ -15,6 +15,6 @@ public class Gravity implements ForceGenerator {
     @Override
     public void updateForce(Rect rect, double dt) {
         // f = m *a
-        rect.addForce(new Vector2(gravity).mulRet(rect.getMass()));
+        rect.addForce(new Vector2(gravity).mul(rect.getMass()));
     }
 }

@@ -3,7 +3,6 @@ package GUI;
 import Calculate.Force.CollisionDetector;
 import Calculate.Vector2;
 import Graphical.GraphicsEngine;
-import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Panel {
@@ -14,9 +13,7 @@ public class Panel {
     // position to draw and size to check
     // whether any button is clicked on the menu
     public Vector2 position, size;
-    private boolean horizontal = false;
-    //direction where next button will be drawn
-    private final Vector2 buttonSpacing = new Vector2(0, 30);
+    private final boolean horizontal = false;
 
     public Panel(Vector2 v) {
         this.position = new Vector2(v);
@@ -49,10 +46,6 @@ public class Panel {
 
         System.out.println("SIZE is " + size.toString());
     }
-//
-//    public void draw(Graphics2D g2) {
-//        this.buttons.forEach(b -> b.draw(g2));
-//    }
 
     public void draw(GraphicsEngine ge) {
         this.buttons.forEach(b -> b.draw(ge));
@@ -74,7 +67,7 @@ public class Panel {
 
         if (getOnMenu(point)) {
             for (Button b : this.buttons) {
-                b.CheckHighlight(point, click, ch);
+                b.checkHighlight(point, click, ch);
                 if (b.isHighlighted(point) && b.response.panel != null) {
                     b.response.panel.OnMenu(point, click, ch);
                 }
