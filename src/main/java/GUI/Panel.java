@@ -52,14 +52,14 @@ public class Panel {
     }
 
     //checks whether the point is clicked on menu's area
-    public void OnMenu(Vector2 point, boolean click, String ch) {
+    public void onMenu(Vector2 point, boolean click, String ch) {
         boolean isOne = false;
         // checks whether it is the cur
         for (Button b : this.buttons) {
             if (b.response.getPanel() != null) {
                 //System.out.println("panel "+this.buttons.get(i).name);
                 if (b.response.getActive() && b.response.panel.getOnMenu(point)) {
-                    b.response.panel.OnMenu(point, click, ch);
+                    b.response.panel.onMenu(point, click, ch);
                     isOne = true;
                 }
             }
@@ -67,10 +67,7 @@ public class Panel {
 
         if (getOnMenu(point)) {
             for (Button b : this.buttons) {
-                b.checkHighlight(point, click, ch);
-                if (b.isHighlighted(point) && b.response.panel != null) {
-                    b.response.panel.OnMenu(point, click, ch);
-                }
+                b.onButton(point, click);
             }
         } else if (!isOne) { // can be used to disable highlight
             this.offHighlight();

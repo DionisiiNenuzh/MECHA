@@ -9,7 +9,6 @@ import Calculate.Vector2;
 import java.awt.Color;
 import java.util.ArrayList;
 
-//@JsonPropertyOrder({"name", "position", "size", "mass"})
 public class Rect {
     //attributes that are needed for the object
     public final double FORCE_ZERO = 0.01;

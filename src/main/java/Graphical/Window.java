@@ -159,7 +159,7 @@ public class Window extends JFrame implements Runnable {
             Pointer = new Vector2(this.ml.getLocation());
             Click = ml.getClick();
             // checks whether buttons on the panel should be highlighted or pressed
-            this.menu.OnMenu(Pointer, Click, this.keyListener.getCharacter());
+            this.menu.onMenu(Pointer, Click, this.keyListener.getCharacter());
             this.Out.CheckHighlight(Pointer, Click);
             this.Display.update(Pointer, Click, this.scroll.getRotation());
             this.objects.changeSubject(this.Out);

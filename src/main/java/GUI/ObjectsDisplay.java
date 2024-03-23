@@ -98,7 +98,7 @@ public class ObjectsDisplay {
         boolean isOne = false;
         CollisionDetector c = new CollisionDetector();
         if (this.onMenu) {
-            this.options.OnMenu(point, click, "a");
+            this.options.onMenu(point, click, "a");
             this.onMenu = this.options.getOnMenu(point);
         }
         for (int i = 0; i < this.objects.size(); i++) {

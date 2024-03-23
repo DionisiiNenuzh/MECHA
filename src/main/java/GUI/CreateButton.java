@@ -12,7 +12,6 @@ public class CreateButton extends ButtonResponse {
         // takes the position in the left bottom corner of the button
         Vector2 relativePos = new Vector2(position);
         relativePos.add(size);
-        relativePos.add(new Vector2(0, 0));
         this.panel = new Panel(relativePos);
         this.size = new Vector2(size);
         // input a vector during initialisation it
@@ -20,13 +19,13 @@ public class CreateButton extends ButtonResponse {
         // creates one button per object
         Vector2 v = new Vector2(0, 0);
         this.panel.add(new Button(new Vector2(v),
-                new Vector2(140, 25), "Moving Object", new ButtonResponse()));
+                new Vector2(140, 27), "Moving Object", new ButtonResponse()));
         this.panel.add(new Button(new Vector2(v),
-                new Vector2(140, 25), "Stationary ground", new ButtonResponse()));
+                new Vector2(140, 27), "Stationary ground", new ButtonResponse()));
         this.panel.add(new Button(new Vector2(v),
-                new Vector2(140, 25), "Force", new ButtonResponse()));
+                new Vector2(140, 27), "Force", new ButtonResponse()));
         this.panel.add(new Button(new Vector2(v),
-                new Vector2(140, 25), "Velocity", new ButtonResponse()));
+                new Vector2(140, 27), "Velocity", new ButtonResponse()));
         this.OpenedMenu = false;
     }
 

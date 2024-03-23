@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 public class Graphics2DAdapter implements GraphicsEngine{
-  private Graphics2D g2;
+  private final Graphics2D g2;
   private Vector2 offsetVal;
   public Graphics2DAdapter(Graphics2D g2) {
     this.g2 = g2;

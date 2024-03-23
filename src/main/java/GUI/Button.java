@@ -12,6 +12,7 @@ public class Button {
     // it has position of where to draw and identifier
     public Vector2 position, size;
     public String name;
+    private boolean activated;
     public boolean highlighted = false;
     // specific response which can be activated
     public ButtonResponse response;
@@ -25,6 +26,7 @@ public class Button {
         this.size = size;
         this.response = response;
         this.input = null;
+        this.activated = false;
     }
 
     // constructor to make a copy of a button
@@ -33,6 +35,7 @@ public class Button {
         this.name = b.name;
         this.size = b.getSize();
         this.response = b.response;
+        this.activated = false;
     }
 
     public void draw(GraphicsEngine ge) {
@@ -56,8 +59,6 @@ public class Button {
         if (this.response.getActive()) {
             this.setInputWindow();
             if (this.response.panel != null) {
-                Vector2 relativePos = new Vector2(this.position);
-                relativePos.add(this.size);
                 this.response.panel.draw(ge);
             }
         }
@@ -107,9 +108,7 @@ public class Button {
 
     //getters and setters
     public boolean isHighlighted(Vector2 point) {
-        return CollisionDetector.pointInRectangle(point, new Rect((int) this.getPosition().x,
-                (int) this.getPosition().y, (int) this.getSize().y,
-                (int) this.getSize().x, 10, Color.red, ""));
+        return CollisionDetector.pointInRectangle(point, this.position, this.size);
     }
 
     @Override
@@ -133,6 +132,31 @@ public class Button {
             this.response.getPanel().setPosition(updatedPos);
         }
     }
+
+    public void onButton(Vector2 point, boolean click) {
+
+        this.checkHighlight(point, click, "");
+
+        if (CollisionDetector.pointInRectangle(point, this.position, this.size)) {
+            if (click) {
+                this.activate();
+            }
+            if (this.response.panel != null) {
+                this.response.panel.onMenu(point, click, "");
+            }
+        }
+
+
+    }
+
+    public void activate() {
+        this.activated = !this.activated;
+    }
+
+    public boolean isActivated() {
+        return this.activated;
+    }
+
 
     public Vector2 getSize() {
         return new Vector2(this.size);

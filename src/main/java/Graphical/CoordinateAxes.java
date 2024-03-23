@@ -27,7 +27,6 @@ public class CoordinateAxes {
         int Xval = -(int) move.getX();
         int Yval = -(int) move.getY();
         ge.setColor(Color.darkGray);
-//        ge.setOffset(new Vector2(Constants.SCREEN_OFFSET,0));
 
         ge.drawLine(new Vector2(this.minX + Xval + Constants.SCREEN_OFFSET, Yval),
             new Vector2(this.maxX + Xval + Constants.SCREEN_OFFSET, Yval));
@@ -54,6 +53,5 @@ public class CoordinateAxes {
                 new Vector2(10 + Xval + Constants.SCREEN_OFFSET, posY + Yval));
             posY += this.step;
         }
-//        ge.setOffset(new Vector2(0, 0));
     }
 }
