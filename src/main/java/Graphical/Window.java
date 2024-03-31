@@ -3,6 +3,7 @@ package Graphical;
 import Calculate.Vector2;
 import GUI.Button;
 import GUI.ButtonResponse;
+import GUI.ButtonWithPanel;
 import GUI.CreateButton;
 import GUI.MakeForce;
 import GUI.MakeRectangle;
@@ -34,7 +35,7 @@ public class Window extends JFrame implements Runnable {
     // the container of all objects
     ObjectsRegister objects;
     // buttons on the panel
-    Button play, create, restart;
+    Button play, create, createAlt, restart;
     Vector2 Pointer;
     // container of the buttons
     Panel menu;
@@ -66,6 +67,22 @@ public class Window extends JFrame implements Runnable {
         // creation of buttons characteristics
         this.play = new Button(new Vector2(0, 0), new Vector2(147, 25), "play",
                 new ButtonResponse());
+
+        Panel createPanel = new Panel(new Vector2(0,0));
+
+
+        createPanel.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Moving Object", new ButtonResponse()));
+        createPanel.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Stationary ground", new ButtonResponse()));
+        createPanel.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Force", new ButtonResponse()));
+        createPanel.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Velocity", new ButtonResponse()));
+
+
+        this.createAlt = new ButtonWithPanel(new Vector2(0,0), new Vector2(147, 25),"CreateAlt", new ButtonResponse(),
+            createPanel);
         this.create = new Button(new Vector2(0, 0), new Vector2(147, 25), "Create",
                 new CreateButton(new Vector2(0, 0),
                         new Vector2(0, 0)));
@@ -75,6 +92,8 @@ public class Window extends JFrame implements Runnable {
         this.menu = new Panel(new Vector2(0, 30));
         this.menu.add(this.play);
         this.menu.add(this.create);
+        this.menu.add(this.createAlt);
+
         this.menu.add(this.restart);
 
         // initialisation of the window

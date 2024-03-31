@@ -18,7 +18,7 @@ public class Button {
     public ButtonResponse response;
     // has it input window which can be triggered if the button is pressed
     public MakeRectangle input;
-    // constructor
+
 
     public Button(Vector2 position, Vector2 size, String name, ButtonResponse response) {
         this.position = position;
@@ -39,14 +39,12 @@ public class Button {
     }
 
     public void draw(GraphicsEngine ge) {
-        // sets color and width of the line
         ge.setColor(Color.CYAN);
-        // draws a rectangle with size of the button
         ge.drawRectangle(this.position, this.size, true);
         // draws the name of the button on it
+
         ge.setColor(Color.darkGray);
-        Vector2 textPosition = new Vector2(this.position);
-        textPosition.add(new Vector2(20, 20));
+        Vector2 textPosition = new Vector2(20, 20).add(this.position);
         ge.drawText(this.name, textPosition);
 
         // draws yellow outline if the mouse is on
@@ -56,7 +54,14 @@ public class Button {
 
         //TODO remove it to a ButtonWithInput
         //activates an input window if it is possible
-        if (this.response.getActive()) {
+//        if (this.response.getActive()) {
+//            this.setInputWindow();
+//            if (this.response.panel != null) {
+//                this.response.panel.draw(ge);
+//            }
+//        }
+
+        if (this.activated) {
             this.setInputWindow();
             if (this.response.panel != null) {
                 this.response.panel.draw(ge);
@@ -75,10 +80,10 @@ public class Button {
     public void setInputWindow() {
         // makes the input window visible if it exists
         if (this.input != null) {
-            this.input.setVisible(this.response.Active);
+//            this.input.setVisible(this.response.Active);
+            this.input.setVisible(this.activated);
         }
     }
-    // method to get are details of the input window completed or not
 
     // checked
     public void checkHighlight(Vector2 p, boolean click, String ch) {
@@ -95,20 +100,6 @@ public class Button {
         } else {
             this.highlighted = false;
         }
-        // checks whether it is clicked on the dropdown panel
-        /*
-        if (this.response.panel!=null) {
-            this.response.panel.OnMenu(p, click,ch);
-            if (this.response.getActive()) {
-                System.out.println(this.name);
-            }
-            }}
-         */
-    }
-
-    //getters and setters
-    public boolean isHighlighted(Vector2 point) {
-        return CollisionDetector.pointInRectangle(point, this.position, this.size);
     }
 
     @Override
@@ -145,8 +136,6 @@ public class Button {
                 this.response.panel.onMenu(point, click, "");
             }
         }
-
-
     }
 
     public void activate() {
@@ -157,14 +146,8 @@ public class Button {
         return this.activated;
     }
 
-
     public Vector2 getSize() {
         return new Vector2(this.size);
-    }
-
-    public void setSize(Vector2 size) {
-
-        this.size = new Vector2(size);
     }
 
 }

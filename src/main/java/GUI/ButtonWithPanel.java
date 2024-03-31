@@ -9,7 +9,7 @@ public class ButtonWithPanel extends Button{
       ButtonResponse response, Panel panel) {
     super(position, size, name, response);
     this.panel = panel;
-
+    this.panel.setPosition(position);
   }
 
   public void add(Button b) {
