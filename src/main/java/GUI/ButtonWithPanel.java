@@ -33,6 +33,7 @@ public class ButtonWithPanel extends Button{
   }
 
   public void add(Button b) {
+
     panel.add(b);
   }
 
