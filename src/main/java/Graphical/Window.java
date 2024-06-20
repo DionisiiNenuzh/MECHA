@@ -81,8 +81,21 @@ public class Window extends JFrame implements Runnable {
             new Vector2(140, 27), "Velocity", new ButtonResponse()));
 
 
+        Panel createPanelAlt = new Panel(new Vector2(0,0));
+
+
+        createPanelAlt.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Moving Object 1", new ButtonResponse()));
+        createPanelAlt.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Stationary ground 1", new ButtonResponse()));
+        createPanelAlt.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Force 1", new ButtonResponse()));
+        createPanelAlt.add(new Button(new Vector2(0, 0),
+            new Vector2(140, 27), "Velocity 1", new ButtonResponse()));
+
+
         this.createAlt = new ButtonWithPanel(new Vector2(0,0), new Vector2(147, 25),"CreateAlt", new ButtonResponse(),
-            createPanel);
+            createPanelAlt);
         this.create = new Button(new Vector2(0, 0), new Vector2(147, 25), "Create",
                 new CreateButton(new Vector2(0, 0),
                         new Vector2(0, 0)));

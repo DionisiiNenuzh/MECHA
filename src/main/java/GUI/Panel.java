@@ -68,6 +68,7 @@ public class Panel {
         if (getOnMenu(point)) {
             for (Button b : this.buttons) {
                 b.onButton(point, click);
+//                b.checkHighlight(point);
             }
         } else if (!isOne) { // can be used to disable highlight
             this.offHighlight();

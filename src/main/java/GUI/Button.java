@@ -54,15 +54,13 @@ public class Button {
 
         //TODO remove it to a ButtonWithInput
         //activates an input window if it is possible
-//        if (this.response.getActive()) {
-//            this.setInputWindow();
-//            if (this.response.panel != null) {
-//                this.response.panel.draw(ge);
-//            }
-//        }
 
         if (this.activated) {
-            this.setInputWindow();
+
+            if (this.input != null) {
+                this.input.setVisible(this.activated);
+            }
+
             if (this.response.panel != null) {
                 this.response.panel.draw(ge);
             }
@@ -75,31 +73,6 @@ public class Button {
         // and the button which has a mouse pointer on it
         ge.setColor(color);
         ge.drawRectangle(this.position, this.size, false);
-    }
-
-    public void setInputWindow() {
-        // makes the input window visible if it exists
-        if (this.input != null) {
-//            this.input.setVisible(this.response.Active);
-            this.input.setVisible(this.activated);
-        }
-    }
-
-    // checked
-    public void checkHighlight(Vector2 p, boolean click, String ch) {
-
-        if (CollisionDetector.pointInRectangle(p, position, size)) {
-//            System.out.println("Ther has been a detection on button" + this.toString() + " at point: " + p.toString());
-            // if the point where the mouse pointer is now is inside
-            // the rectangle
-            this.highlighted = true;
-            if (click) {
-                System.out.println("pressed " + this.name);
-                this.response.activate();
-            }
-        } else {
-            this.highlighted = false;
-        }
     }
 
     @Override
@@ -115,7 +88,6 @@ public class Button {
 
     public void setPosition(Vector2 position) {
         this.position = new Vector2(position);
-        System.out.println("The button has changed its position it is at " + this.toString());
 
         if (this.response.getPanel() != null) {
             Vector2 updatedPos = new Vector2(position);
@@ -126,15 +98,23 @@ public class Button {
 
     public void onButton(Vector2 point, boolean click) {
 
-        this.checkHighlight(point, click, "");
-
         if (CollisionDetector.pointInRectangle(point, this.position, this.size)) {
+
+            this.highlighted = true;
+            //TODO remove later
+            if (click) {
+                System.out.println("pressed " + this.name);
+                this.response.activate();
+            }
+
             if (click) {
                 this.activate();
             }
             if (this.response.panel != null) {
                 this.response.panel.onMenu(point, click, "");
             }
+        } else {
+            this.highlighted = false;
         }
     }
 
