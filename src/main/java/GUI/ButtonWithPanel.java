@@ -12,6 +12,7 @@ public class ButtonWithPanel extends Button{
     super(position, size, name, response);
     this.panel = panel;
     Vector2 panelPosition = new Vector2(position);
+    // another comment
 
     if (horizontal) {
       panelPosition.add(new Vector2(0, this.getSize().getY())) ;
